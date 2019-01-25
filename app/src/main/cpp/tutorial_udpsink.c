@@ -188,7 +188,6 @@ static void *app_function(void *userdata) {
     return NULL;
 }
 
-char nadajnik_IP_string[128];
 int v4l_device_number = 0;
 gboolean video_running = FALSE;
 
@@ -208,7 +207,7 @@ gboolean first_time_audio = TRUE;
 
 int video_start(char arg[]) {
     char remote_IP_string[128];
-
+    sprintf(remote_IP_string, "%d.%d.%d.%d", arg[0], arg[1], arg[2], arg[3]);
     /* executed only on first camera activation */
     if (first_time_video) {
         /* videotestsrc */
@@ -250,8 +249,6 @@ int video_start(char arg[]) {
     g_object_set(G_OBJECT(udpsink), "port", 5000, NULL);
     /* sets the destination port */
 
-    sprintf(remote_IP_string, "%d.%d.%d.%d", arg[0], arg[1], arg[2], arg[3]);
-
     g_object_set(G_OBJECT(udpsink), "host", remote_IP_string, NULL);
     /* sets the destination IP address */
 
@@ -267,55 +264,67 @@ int video_start(char arg[]) {
 
 /* GstStateChangeReturn ret_audio; */
 GstElement *pipeline_audio;
-GstElement *alsasrc, *converter, *speexenc, *tcpserversink;
+GstElement *audiosource, *audioconvert, *speexenc, *audioudpsink;
 
-int audio_start() {
-    if (first_time_audio == TRUE) {
+int audio_start(char arg[]) {
+    char remote_IP_string[128];
+    sprintf(remote_IP_string, "%d.%d.%d.%d", arg[0], arg[1], arg[2], arg[3]);
+    if (first_time_audio) {
         pipeline_audio = gst_pipeline_new("pipeline-audio");
-        alsasrc = gst_element_factory_make("alsasrc", "alsa-source");
-        converter = gst_element_factory_make("audioconvert", "audio-convert");
+        audiosource = gst_element_factory_make("openslessrc", "audiosource");
+        audioconvert = gst_element_factory_make("audioconvert", "audio-convert");
         speexenc = gst_element_factory_make("speexenc", "audio-encoder");
-        tcpserversink = gst_element_factory_make("tcpserversink", "tcp-server-sink");
+        audioudpsink = gst_element_factory_make("udpsink", "sink");
+        
+        if (!audioudpsink) { GST_DEBUG ("audio UDP sink is null: NOGO!"); }
+        g_assert(audioudpsink);
 
-        if (!tcpserversink) {
-            g_print("Output could not be found - check your install!\n");
+        /* failover */
+        if (audiosource == NULL)
+        {
+            audiosource = gst_element_factory_make("audiotestsrc", NULL);
         }
 
         g_assert (pipeline_audio != NULL);
-        g_assert (alsasrc != NULL);
-        g_assert (converter != NULL);
+        g_assert (audiosource != NULL);
+        g_assert (audioconvert != NULL);
         g_assert (speexenc != NULL);
-        g_assert (tcpserversink != NULL);
+        g_assert (audioudpsink != NULL);
 
-        gst_bin_add(GST_BIN(pipeline_audio), alsasrc);
-        gst_bin_add(GST_BIN(pipeline_audio), converter);
+        /*
+        gst_bin_add(GST_BIN(pipeline_audio), audiosource);
+        gst_bin_add(GST_BIN(pipeline_audio), audioconvert);
         gst_bin_add(GST_BIN(pipeline_audio), speexenc);
-        gst_bin_add(GST_BIN(pipeline_audio), tcpserversink);
+        gst_bin_add(GST_BIN(pipeline_audio), audioudpsink);
+        */
 
-        if (!gst_element_link(alsasrc, converter)) {
-            g_print("NOGO: Failed to link audio source with converter!\n");
+        gst_bin_add_many(GST_BIN(pipeline_audio), audiosource, audioconvert, speexenc, audioudpsink, NULL);
+
+        if (!gst_element_link(audiosource, audioconvert)) {
+            GST_DEBUG ("Failed to link audio source with audioconvert!\n");
             return -1;
         } else {
-            g_print("GO: Linked audio source with converter.\n");
+            g_print("Linked audio source with audioconvert: OK\n");
         }
 
-        if (!gst_element_link(converter, speexenc)) {
-            g_print("NOGO: Failed to link converter with speexenc!\n");
+        if (!gst_element_link(audioconvert, speexenc)) {
+            GST_DEBUG ("Failed to link audioconvert with speexenc!\n");
             return -1;
         } else {
-            g_print("GO: Linked converter with speexenc.\n");
+            g_print("Linked audioconvert with speexenc: OK\n");
         }
 
-        if (!gst_element_link(speexenc, tcpserversink)) {
-            g_print("NOGO: Failed to link speexenc with tcpserversink!\n");
+        if (!gst_element_link(speexenc, audioudpsink)) {
+            GST_DEBUG ("Failed to link speexenc with audioudpsink!\n");
             return -1;
         } else {
-            g_print("GO: Linked speexenc with tcpserversink.\n");
+            g_print("Linked speexenc with audioudpsink: OK\n");
         }
-        first_time_video = FALSE;
+
+        first_time_audio = FALSE;
     }
 
-    g_object_set(G_OBJECT(tcpserversink), "host", nadajnik_IP_string, NULL);
+    g_object_set(G_OBJECT(tcpserversink), "host", remote_IP_string, NULL);
     g_object_set(G_OBJECT(tcpserversink), "port", 5001, NULL);
 
     if (gst_element_set_state(GST_ELEMENT(pipeline_audio), GST_STATE_PLAYING)) {
