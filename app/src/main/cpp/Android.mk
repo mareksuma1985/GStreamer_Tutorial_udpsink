@@ -1,6 +1,14 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
+LOCAL_CFLAGS := -DGST_USE_UNSTABLE_API
+LOCAL_MODULE    := android_camera
+LOCAL_SRC_FILES := android_camera.c
+LOCAL_SHARED_LIBRARIES := gstreamer_android
+LOCAL_LDLIBS := -landroid -llog
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE    := tutorial_udpsink
 LOCAL_SRC_FILES := tutorial_udpsink.c
 LOCAL_SHARED_LIBRARIES := gstreamer_android
