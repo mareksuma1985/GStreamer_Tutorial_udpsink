@@ -201,7 +201,7 @@ static void on_pad_added(GstElement *element, GstPad *pad, gpointer data) {
 }
 
 GstElement *pipeline;
-GstElement *bin, *encoder, *udpsink;
+GstElement *camera, *queue, *capsfilter, *videoconvert, *encoder, *udpsink;
 gboolean first_time_video = TRUE;
 gboolean first_time_audio = TRUE;
 
