@@ -208,42 +208,93 @@ gboolean first_time_audio = TRUE;
 int video_start(char arg[]) {
     char remote_IP_string[128];
     sprintf(remote_IP_string, "%d.%d.%d.%d", arg[0], arg[1], arg[2], arg[3]);
+    char v4l_device_path[11];
+    /* "/dev/videoX" is 11 characters long */
+
     /* executed only on first camera activation */
     if (first_time_video) {
         /* videotestsrc */
-        pipeline = gst_pipeline_new("pipeline");
-        g_assert(pipeline);
-
+        /*
         bin = gst_element_factory_make("videotestsrc", "source");
         if (!bin) { GST_DEBUG ("NOGO: bin is null!"); }
         g_assert(bin);
+        */
+
+        /* ahcsrc */
+        camera = gst_element_factory_make("ahcsrc", "ahcsrc");
+        if (!camera) { GST_DEBUG ("NOGO: camera is null!"); }
+        g_assert(camera);
+
+        pipeline = gst_pipeline_new("pipeline");
+        g_assert(pipeline);
+
+        queue = gst_element_factory_make("queue", "srcqueue");
+        g_assert(queue);
+
+/*
+        videoscale = gst_element_factory_make ("videoscale", NULL);
+        g_assert(videoscale);
+*/
+
+        /** The element does not modify data as such, but can enforce limitations on the data format.  */
+        capsfilter = gst_element_factory_make("capsfilter", NULL);
+        if (!capsfilter) { GST_DEBUG ("capsfilter is null: NOGO!"); }
+        g_assert(capsfilter);
+
+            GstCaps *new_caps;
+            new_caps = gst_caps_new_simple("video/x-raw", "width", G_TYPE_INT, 320, "height", G_TYPE_INT, 240, NULL);
+            g_object_set(capsfilter, "caps", new_caps, NULL);
+            gst_caps_unref(new_caps);
+
+        videoconvert = gst_element_factory_make("videoconvert", NULL);
+        if (!videoconvert) { GST_DEBUG ("videoconvert is null: NOGO!"); }
+        g_assert(videoconvert);
 
         encoder = gst_element_factory_make("openh264enc", "encoder");
-        if (!encoder) { GST_DEBUG ("NOGO: encoder is null!"); }
+        if (!encoder) { GST_DEBUG ("encoder is null: NOGO!"); }
         g_assert(encoder);
 
         udpsink = gst_element_factory_make("udpsink", "sink");
-        if (!udpsink) { GST_DEBUG ("NOGO: UDP sink is null!"); }
+        if (!udpsink) { GST_DEBUG ("UDP sink is null: NOGO!"); }
         g_assert(udpsink);
 
-        gst_bin_add(GST_BIN(pipeline), bin);
-        gst_bin_add(GST_BIN(pipeline), encoder);
-        gst_bin_add(GST_BIN(pipeline), udpsink);
+        gst_bin_add_many(GST_BIN(pipeline), camera, queue, capsfilter, videoconvert, encoder, udpsink, NULL);
 
-        if (!gst_element_link(bin, encoder)) {
-            GST_DEBUG ("NOGO: Failed to link source (camerabin) with encoder!");
+        if (!gst_element_link(camera, queue)) {
+            GST_DEBUG ("Failed to link ahcsrc camera with queue!\n");
             return -1;
         } else {
-            GST_DEBUG ("GO: Linked source (camerabin) with encoder.");
+            g_print("Linked ahcsrc camera with queue: OK\n");
+        }
+
+        if (!gst_element_link(queue, capsfilter)) {
+            GST_DEBUG ("Failed to link queue with capsfilter!\n");
+            return -1;
+        } else {
+            g_print("Linked queue with capsfilter: OK\n");
+        }
+
+        if (!gst_element_link(capsfilter, videoconvert)) {
+            GST_DEBUG ("Failed to link capsfilter with converter!\n");
+            return -1;
+        } else {
+            g_print("Linked capsfilter with converter: OK\n");
+        }
+
+        if (!gst_element_link(videoconvert, encoder)) {
+            GST_DEBUG ("Failed to link converter with encoder!\n");
+            return -1;
+        } else {
+            g_print("Linked converter with encoder: OK\n");
         }
 
         if (!gst_element_link(encoder, udpsink)) {
-            g_print("NOGO: Failed to link encoder with UDP sink!\n");
+            GST_DEBUG ("Failed to link encoder with UDP sink!\n");
             return -1;
         } else {
-            g_print("GO: Linked encoder with UDP sink.\n");
+            g_print("Linked encoder with UDP sink: OK\n");
         }
-        if (first_time_video == TRUE) { first_time_video = FALSE; }
+        first_time_video = FALSE;
     }
 
     g_object_set(G_OBJECT(udpsink), "port", 5000, NULL);
@@ -253,9 +304,9 @@ int video_start(char arg[]) {
     /* sets the destination IP address */
 
     if (gst_element_set_state(GST_ELEMENT(pipeline), GST_STATE_PLAYING)) {
-        g_print("GO: Video pipeline state set to playing.\n");
+        g_print("Video pipeline state set to playing: OK\n");
     } else {
-        g_print("NOGO: Failed to start up video pipeline!\n");
+        GST_DEBUG ("Failed to start up video pipeline!\n");
         return -1;
     }
     video_running = TRUE;
@@ -324,8 +375,8 @@ int audio_start(char arg[]) {
         first_time_audio = FALSE;
     }
 
-    g_object_set(G_OBJECT(tcpserversink), "host", remote_IP_string, NULL);
-    g_object_set(G_OBJECT(tcpserversink), "port", 5001, NULL);
+    g_object_set(G_OBJECT(audioudpsink), "host", remote_IP_string, NULL);
+    g_object_set(G_OBJECT(audioudpsink), "port", 5001, NULL);
 
     if (gst_element_set_state(GST_ELEMENT(pipeline_audio), GST_STATE_PLAYING)) {
         g_print("GO: Audio pipeline state set to playing.\n");
