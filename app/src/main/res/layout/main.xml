@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="pl.bezzalogowe.udpsink.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="24dp" />
+        <LinearLayout
+            android:id="@+id/LayoutVideo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/button_video_stream_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:drawable/ic_media_play"
+                android:text="Stream Start"
+                android:layout_marginRight="4dp"/>
+            <ImageButton
+                android:id="@+id/button_video_stream_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:drawable/ic_media_pause"
+                android:text="Stream Stop"
+                android:layout_marginRight="4dp" />
+            <ImageButton
+                android:id="@+id/button_video_stream_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:drawable/ic_dialog_info"
+                android:text="@string/receiving_video_title"
+                android:layout_marginRight="4dp" />
+            <TextView
+                android:id="@+id/textViewVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Video"
+                android:textSize="24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LayoutAudio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <ImageButton
+                android:text="Play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/button_audio_stream_start"
+                android:src="@android:drawable/ic_media_play"
+                android:layout_marginRight="4dp" />
+            <ImageButton
+                android:text="Stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/button_audio_stream_stop"
+                android:src="@android:drawable/ic_media_pause"
+                android:layout_marginRight="4dp" />
+            <ImageButton
+                android:id="@+id/button_audio_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:drawable/ic_dialog_info"
+                android:text="@string/receiving_audio_title"
+                android:layout_marginRight="4dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Audio"
+                android:textSize="24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LayoutFlac"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <ImageButton
+                android:text="Play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/button_flac_stream_start"
+                android:src="@android:drawable/ic_media_play"
+                android:layout_marginRight="4dp" />
+            <ImageButton
+                android:text="Stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/button_flac_stream_stop"
+                android:src="@android:drawable/ic_media_pause"
+                android:layout_marginRight="4dp" />
+            <ImageButton
+                android:id="@+id/button_audio_flac_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:drawable/ic_dialog_info"
+                android:text="@string/receiving_audio_flac_title"
+                android:layout_marginRight="4dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Audio (FLAC)"
+                android:textSize="24dp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textview_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:ems="10" />
+    </LinearLayout>
+</RelativeLayout>
