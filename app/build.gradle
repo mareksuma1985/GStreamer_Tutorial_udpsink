@@ -12,7 +12,7 @@ android {
 
         externalNativeBuild {
             ndkBuild {
-                targets 'android_camera', 'tutorial_udpsink'
+                targets 'android_camera', 'gstreamer_udpsink'
                 abiFilters 'armeabi', 'armeabi-v7a'
             }
         }
