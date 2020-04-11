@@ -9,7 +9,7 @@ The app streams phone's main camera feed to a given IP address using openh264enc
   sdk.dir=~/Library/Android/android-sdk-linux
 ```
 
-![screenshot](screenshots/screenshot_2019-03-02.png)
+![screenshot](screenshots/pl.bezzalogowe.udpsink_en_001.png)
 
 
 To play the video stream execute one of following commands on target machine:
@@ -18,9 +18,17 @@ To play the video stream execute one of following commands on target machine:
 gst-launch-1.0 udpsrc port=5000 ! h264parse ! avdec_h264 ! autovideosink
 gst-launch-1.0 udpsrc port=5000 ! queue ! h264parse ! avdec_h264 ! queue ! videoscale ! video/x-raw,width=640,height=480 ! autovideosink
 ```
-To play the audio stream execute one of following commands on target machine (the latter for FLAC encoded stream):
+
+To play the audio stream execute (the latter for FLAC encoded stream):
 
 ```
 gst-launch-1.0 udpsrc port=5001 ! audio/x-raw, format=S16LE, channels=1, rate=16000 ! autoaudiosink sync=false
 gst-launch-1.0 udpsrc port=5001 ! flacparse ! flacdec ! autoaudiosink sync=false
+```
+
+To play both video and audio execute (the latter for FLAC encoded stream):
+
+```
+gst-launch-1.0 udpsrc port=5000 ! h264parse ! avdec_h264 ! autovideosink udpsrc port=5001 ! audio/x-raw, format=S16LE, channels=1, rate=16000 ! autoaudiosink sync=false
+gst-launch-1.0 udpsrc port=5000 ! h264parse ! avdec_h264 ! autovideosink udpsrc port=5001 ! flacparse ! flacdec ! autoaudiosink sync=false
 ```
