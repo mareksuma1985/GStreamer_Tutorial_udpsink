@@ -1,6 +1,7 @@
 package pl.bezzalogowe.udpsink;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -14,12 +15,16 @@ import android.support.v7.app.ActionBar;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.content.Intent;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.preference.PreferenceFragment;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -57,29 +62,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 ? listPreference.getEntries()[index]
                                 : null);
 
-            } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.pref_ringtone_silent);
-
-                } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
-                }
-
-            } else if (preference instanceof SwitchPreference) {
+            }
+            /* ringtone preference unused */
+            else if (preference instanceof SwitchPreference) {
                 SwitchPreference toggle = (SwitchPreference) preference;
                 // Set the summary to reflect the new value.
                 toggle.setSummaryOn("enabled");
@@ -157,26 +142,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         setupActionBar();
         addPreferencesFromResource(R.xml.pref_general);
 
-        //setHasOptionsMenu(true);
-
         bindPreferenceSummaryToValue(findPreference("h264-resolution"));
+        bindPreferenceSummaryToValue(findPreference("h264-framerate"));
         bindPreferenceSummaryToValue(findPreference("h264-bitrate"));
+        bindSwitchPreferenceSummaryToValue(findPreference("autostart"));
+        bindSwitchPreferenceSummaryToValue(findPreference("stream-audio"));
         bindSwitchPreferenceSummaryToValue(findPreference("flac-toggle"));
         bindPreferenceSummaryToValue(findPreference("opensles-bitrate"));
         bindPreferenceSummaryToValue(findPreference("port-video"));
         bindPreferenceSummaryToValue(findPreference("port-audio"));
     }
 
-    /** when "back" actionbar arrow is clicked */
+    /* when "back" actionbar arrow is clicked */
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
-                //NavUtils.navigateUpFromSameTask(this);
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                //intent.putExtra(EXTRA_MESSAGE, "main");
 
                 startActivity(intent);
                 finish();
@@ -186,10 +170,82 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return super.onMenuItemSelected(featureId, item);
     }
 
-    /** when "back" button is clicked */
+    private void saveSize() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+
+        Byte resolutionIndex = Byte.valueOf(settings.getString("h264-resolution", "3"));
+
+        short width, height;
+        switch (resolutionIndex) {
+            case 0:
+                width = 176;
+                height = 144;
+                break;
+            case 1:
+                width = 320;
+                height = 240;
+                break;
+            case 2:
+                width = 352;
+                height = 288;
+                break;
+            case 4:
+                width = 720;
+                height = 480;
+                break;
+            case 5:
+                width = 800;
+                height = 480;
+                break;
+            case 6:
+                width = 960;
+                height = 720;
+                break;
+            case 7:
+                width = 1280;
+                height = 720;
+                break;
+            case 8:
+                width = 1440;
+                height = 1080;
+                break;
+            case 9:
+                width = 1920;
+                height = 1080;
+                break;
+            /* not tested, probably wouldn't work */
+            case 10:
+                width = 1920;
+                height = 1200;
+                break;
+            case 11:
+                width = 2560;
+                height = 1440;
+                break;
+            case 12:
+                width = 2560;
+                height = 1600;
+                break;
+            case 13:
+                width = 3840;
+                height = 2160;
+                break;
+            default:
+                width = 640;
+                height = 480;
+                break;
+        }
+
+        String videoSize = width + "," + height;
+        editor.putString("video-size", videoSize);
+        editor.commit();
+    }
+    
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        //intent.putExtra(EXTRA_MESSAGE, "main");
+        //TODO: save "video-size", not "h264-resolution"
+        saveSize();
         startActivity(intent);
         finish();
     }
@@ -205,12 +261,4 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     /**
      * {@inheritDoc}
      */
-/*
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_general, target);
-    }
-*/
-
 }
