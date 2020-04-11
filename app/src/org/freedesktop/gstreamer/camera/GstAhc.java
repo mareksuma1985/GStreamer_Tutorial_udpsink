@@ -4,49 +4,19 @@ import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
-
-import org.freedesktop.gstreamer.GStreamer;
-
+import android.widget.Toast;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.freedesktop.gstreamer.GStreamer;
+
+import pl.bezzalogowe.udpsink.MainActivity;
+import pl.bezzalogowe.udpsink.UpdateTextThread;
+
 public class GstAhc implements Closeable, SurfaceHolder.Callback {
 
     private final static String TAG = GstAhc.class.getName();
-
-    private native void nativeInit();
-
-    private native void nativeFinalize();
-
-    private native void nativePlay();
-
-    private native void nativePause();
-
-    private static native boolean nativeClassInit();
-
-    private native void nativeSurfaceInit(Object surface);
-
-    private native void nativeSurfaceFinalize();
-
-    private native void nativeChangeResolution(int width, int height);
-
-    private native void nativeSetRotateMethod(int orientation);
-
-    private native void nativeSetAutoFocus(boolean enabled);
-
-    public enum Rotate {
-        NONE,
-        CLOCKWISE,
-        ROTATE_180,
-        COUNTERCLOCKWISE,
-        HORIZONTAL_FLIP,
-        VERTICAL_FLIP,
-        UPPER_LEFT_DIAGONAL,
-        UPPER_RIGHT_DIAGONAL,
-        AUTOMATIC
-    }
-
     private static final Rotate[] rotateMap = {
             Rotate.NONE,
             Rotate.CLOCKWISE,
@@ -58,7 +28,6 @@ public class GstAhc implements Closeable, SurfaceHolder.Callback {
             Rotate.UPPER_RIGHT_DIAGONAL,
             Rotate.AUTOMATIC
     };
-
     private static final String[] whiteBalanceMap = {
             Camera.Parameters.WHITE_BALANCE_AUTO,
             Camera.Parameters.WHITE_BALANCE_DAYLIGHT,
@@ -70,33 +39,6 @@ public class GstAhc implements Closeable, SurfaceHolder.Callback {
             Camera.Parameters.WHITE_BALANCE_WARM_FLUORESCENT,
             Camera.Parameters.WHITE_BALANCE_SHADE
     };
-
-    private native void nativeSetWhiteBalance(int wb);
-
-    private long native_custom_data;
-
-    private String whiteBalanceMode;
-    private Context context;
-
-    private GstAhc(Context context) {
-        nativeInit();
-        this.context = context;
-    }
-
-    public static GstAhc init(Context context) throws Exception {
-
-        System.loadLibrary("gstreamer_android");
-        System.loadLibrary("android_camera");
-
-        GStreamer.init(context);
-
-        if (!nativeClassInit()) {
-            throw new Exception("Failed to load application jni library.");
-        }
-
-        return new GstAhc(context);
-    }
-
     private static final State[] stateMap = {
             State.VOID,
             State.NULL,
@@ -104,23 +46,68 @@ public class GstAhc implements Closeable, SurfaceHolder.Callback {
             State.PAUSED,
             State.PLAYING
     };
-
-    public enum State {
-        VOID,
-        NULL,
-        READY,
-        PAUSED,
-        PLAYING
-    }
-
+    MainActivity main;
+    private long native_custom_data;
+    private String whiteBalanceMode;
+    private Context context;
     private State state = State.VOID;
+    private StateChangedListener stateChangedListener;
+    private ErrorListener errorListener;
 
-    public static interface StateChangedListener {
-        abstract void stateChanged(GstAhc gstAhc, State state);
+    private GstAhc(Context context) {
+        nativeInit();
+        this.context = context;
+
+        main = (MainActivity) context;
     }
 
-    private StateChangedListener stateChangedListener;
+    private static native boolean nativeClassInit();
 
+    public static GstAhc init(Context context) throws Exception {
+        System.loadLibrary("gstreamer_android");
+        System.loadLibrary("android_camera");
+
+        GStreamer.init(context);
+
+        if (!nativeClassInit()) {
+            Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+
+            throw new Exception("Failed to load application jni library.");
+        }
+
+        return new GstAhc(context);
+    }
+
+    public native void nativeInit();
+
+    private native void nativeFinalize();
+
+    public native void nativePlay();
+
+    public native void nativePause();
+
+    private native void nativeSurfaceInit(Object surface);
+
+    private native void nativeSurfaceFinalize();
+
+    private native void nativeChangeResolution(int width, int height);
+
+    private native void nativeSetRotateMethod(int orientation);
+
+    private native void nativeSetAutoFocus(boolean enabled);
+
+    private native void nativeSetWhiteBalance(int wb);
+
+    /** video */
+    public native void nativeStreamStart(short width, short height, short framerate, int bitrate, byte ip0, byte ip1, byte ip2, byte ip3, int port);
+
+    public native void nativeStreamStop();
+
+    /** audio */
+    public native void nativeStreamStartAudio(boolean flac, int bitrate, byte ip0, byte ip1, byte ip2, byte ip3, int port);
+
+    public native void nativeStreamStopAudio();
+    
     public void setStateChangedListener(StateChangedListener listener) {
         stateChangedListener = listener;
     }
@@ -161,7 +148,7 @@ public class GstAhc implements Closeable, SurfaceHolder.Callback {
 
     public void setAutoFocus(boolean enabled) {
         Log.d(TAG, "AutoFocus: " + enabled);
-        nativeSetAutoFocus (enabled);
+        nativeSetAutoFocus(enabled);
     }
 
     public void setWhiteBalanceMode(String mode) {
@@ -201,11 +188,11 @@ public class GstAhc implements Closeable, SurfaceHolder.Callback {
         nativePlay();
     }
 
-    public static interface ErrorListener {
-        abstract void error(GstAhc gstAhc, String errorMessage);
+    /** Called from native code. This sets the content of the TextView from the UI thread. */
+    private void setMessage(String message) {
+        main.update.updateConversationHandler.post(new UpdateTextThread(main.feedback, message));
+        Log.d(TAG, message);
     }
-
-    private ErrorListener errorListener;
 
     public void setErrorListener(ErrorListener listener) {
         errorListener = listener;
@@ -215,5 +202,33 @@ public class GstAhc implements Closeable, SurfaceHolder.Callback {
         if (errorListener != null) {
             errorListener.error(this, errorMessage);
         }
+    }
+
+    public enum Rotate {
+        NONE,
+        CLOCKWISE,
+        ROTATE_180,
+        COUNTERCLOCKWISE,
+        HORIZONTAL_FLIP,
+        VERTICAL_FLIP,
+        UPPER_LEFT_DIAGONAL,
+        UPPER_RIGHT_DIAGONAL,
+        AUTOMATIC
+    }
+
+    public enum State {
+        VOID,
+        NULL,
+        READY,
+        PAUSED,
+        PLAYING
+    }
+
+    public static interface StateChangedListener {
+        abstract void stateChanged(GstAhc gstAhc, State state);
+    }
+
+    public static interface ErrorListener {
+        abstract void error(GstAhc gstAhc, String errorMessage);
     }
 }
