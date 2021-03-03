@@ -1,0 +1,80 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Video">
+    <ListPreference
+        android:defaultValue="640,480"
+        android:title="@string/resolution"
+        android:entries="@array/video_resolutions_sizes"
+        android:entryValues="@array/video_resolutions_index"
+        android:key="video-size"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+    <ListPreference
+            android:defaultValue="15"
+            android:title="@string/framerate"
+            android:entries="@array/video_framerates_sizes"
+            android:entryValues="@array/video_framerates_index"
+            android:key="h264-framerate"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true" />
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="512000"
+        android:title="@string/bitrate"
+        android:inputType="number"
+        android:key="h264-bitrate"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true" />
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="5000"
+        android:title="@string/port_number"
+        android:inputType="number"
+        android:key="port-video"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true" />
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="autostart"
+            android:title="@string/autostart" />
+    <SwitchPreference
+            android:defaultValue="true"
+            android:key="video-direction"
+            android:title="@string/autorotation" />
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="rtph264pay"
+            android:title="@string/rtph264pay" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Audio">
+    <SwitchPreference
+            android:defaultValue="true"
+            android:key="stream-audio"
+            android:title="@string/stream_audio" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="flac-toggle"
+        android:title="@string/flac_enable" />
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="16000"
+        android:title="@string/bitrate"
+        android:inputType="number"
+        android:key="opensles-bitrate"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true" />
+    <EditTextPreference
+            android:capitalize="words"
+            android:defaultValue="5001"
+            android:title="@string/port_number"
+            android:inputType="number"
+            android:key="port-audio"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

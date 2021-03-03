@@ -1,0 +1,49 @@
+{
+  "buildFiles": [
+    "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp/Android.mk"
+  ],
+  "cleanCommands": [
+    "/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp/Android.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/lib clean"
+  ],
+  "buildTargetsCommand": "/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp/Android.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/lib {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "gstreamer_android-debug-gst-build-armeabi-v7a": {
+      "buildCommand": "/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp/Android.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/lib gst-build-armeabi-v7a/libgstreamer_android.so",
+      "toolchain": "toolchain-gst-build-armeabi-v7a",
+      "abi": "gst-build-armeabi-v7a",
+      "artifactName": "gstreamer_android",
+      "files": [
+        {
+          "src": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/gst-build-armeabi-v7a/gstreamer_android.c",
+          "flags": "--sysroot\u003d/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/sysroot -isystem /mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/sysroot/usr/include/arm-linux-androideabi -gcc-toolchain /mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 -fpic -ffunction-sections -funwind-tables -fstack-protector-strong -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -no-canonical-prefixes -fno-integrated-as -g -target armv7-none-linux-androideabi19 -march\u003darmv7-a -mfloat-abi\u003dsoftfp -mfpu\u003dvfpv3-d16 -Wall -Werror -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/gstreamer-1.0 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/orc-0.4 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/gstreamer-1.0 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/glib-2.0 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/lib/glib-2.0/include -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include"
+        }
+      ],
+      "output": "gst-build-armeabi-v7a/libgstreamer_android.so"
+    },
+    "android_camera-debug-armeabi-v7a": {
+      "buildCommand": "/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp/Android.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/lib /mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a/libandroid_camera.so",
+      "toolchain": "toolchain-armeabi-v7a",
+      "abi": "armeabi-v7a",
+      "artifactName": "android_camera",
+      "files": [
+        {
+          "src": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp/android_camera.c",
+          "flags": "-gcc-toolchain /mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 -fpic -ffunction-sections -funwind-tables -fstack-protector-strong -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -no-canonical-prefixes -fno-integrated-as -g -target armv7-none-linux-androideabi19 -march\u003darmv7-a -mfloat-abi\u003dsoftfp -mfpu\u003dvfpv3-d16 -mthumb -O0 -UNDEBUG -fno-limit-debug-info -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/gstreamer-1.0 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/orc-0.4 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/gstreamer-1.0 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include/glib-2.0 -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/lib/glib-2.0/include -I/mnt/sda3/Dokumenty/Android/gstreamer-1.0-android-universal-1.14.4/armv7/include -I/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp -DANDROID -DGST_USE_UNSTABLE_API -D__ANDROID_API__\u003d19 -Wa,--noexecstack -Wformat -Werror\u003dformat-security --sysroot /mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/sysroot -isystem /mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/sysroot/usr/include/arm-linux-androideabi"
+        }
+      ],
+      "output": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a/libandroid_camera.so"
+    }
+  },
+  "toolchains": {
+    "toolchain-gst-build-armeabi-v7a": {
+      "cCompilerExecutable": "/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+    },
+    "toolchain-armeabi-v7a": {
+      "cCompilerExecutable": "/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}

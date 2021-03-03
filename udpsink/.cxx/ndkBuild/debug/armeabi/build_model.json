@@ -1,0 +1,67 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei",
+      "sdkFolder": "/mnt/sda3/Dokumenty/Android/android-sdk-linux",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates",
+      "gradleModulePathName": ":udpsink",
+      "moduleRootFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink",
+      "makeFile": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/src/main/cpp/Android.mk",
+      "buildSystem": "NDK_BUILD",
+      "compilerSettingsCacheFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/.cxx",
+      "cxxFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx",
+      "ndkFolder": "/mnt/sda3/Dokumenty/Android/android-sdk-linux/ndk-bundle-r15c",
+      "ndkVersion": "15.2.4203891",
+      "ndkSupportedAbiList": [
+        "ARMEABI",
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "MIPS",
+        "MIPS64",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI",
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "MIPS",
+        "MIPS64",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "debug",
+    "soFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/lib",
+    "objFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj/local",
+    "jsonFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug",
+    "gradleBuildOutputFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/cxx/debug",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI",
+      "ARMEABI_V7A",
+      "ARM64_V8A"
+    ],
+    "buildTargetSet": [
+      "android_camera"
+    ]
+  },
+  "abi": "ARMEABI",
+  "abiPlatformVersion": 19,
+  "cxxBuildFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug/armeabi",
+  "jsonFile": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug/armeabi/android_gradle_build.json",
+  "gradleBuildOutputFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/cxx/debug/armeabi",
+  "objFolder": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/build/intermediates/ndkBuild/debug/obj/local/armeabi",
+  "buildCommandFile": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug/armeabi/build_command.txt",
+  "buildOutputFile": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug/armeabi/build_output.txt",
+  "modelOutputFile": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug/armeabi/build_model.json",
+  "jsonGenerationLoggingRecordFile": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug/armeabi/json_generation_record.json",
+  "compileCommandsJsonFile": "/mnt/sda4/Projekty_nowe/GStreamer_udpsink_Huawei/udpsink/.cxx/ndkBuild/debug/armeabi/compile_commands.json"
+}

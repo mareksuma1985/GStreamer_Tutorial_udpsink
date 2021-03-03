@@ -19,16 +19,22 @@ gst-launch-1.0 udpsrc port=5000 ! h264parse ! avdec_h264 ! autovideosink
 gst-launch-1.0 udpsrc port=5000 ! queue ! h264parse ! avdec_h264 ! queue ! videoscale ! video/x-raw,width=640,height=480 ! autovideosink
 ```
 
-To play the audio stream execute (the latter for FLAC encoded stream):
+To play the video stream with [rtph264pay](https://gstreamer.freedesktop.org/documentation/rtp/rtph264pay.html) enabled, execute:
 
 ```
-gst-launch-1.0 udpsrc port=5001 ! audio/x-raw, format=S16LE, channels=1, rate=16000 ! autoaudiosink sync=false
+gst-launch-1.0 udpsrc port=5000 caps='application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264' ! rtpjitterbuffer ! rtph264depay ! h264parse ! avdec_h264 ! autovideosink fps-update-interval=1000 sync=false
+```
+
+To play the audio stream, execute:
+
+```
 gst-launch-1.0 udpsrc port=5001 ! flacparse ! flacdec ! autoaudiosink sync=false
 ```
 
-To play both video and audio execute (the latter for FLAC encoded stream):
+To play both video and audio, execute:
 
 ```
-gst-launch-1.0 udpsrc port=5000 ! h264parse ! avdec_h264 ! autovideosink udpsrc port=5001 ! audio/x-raw, format=S16LE, channels=1, rate=16000 ! autoaudiosink sync=false
 gst-launch-1.0 udpsrc port=5000 ! h264parse ! avdec_h264 ! autovideosink udpsrc port=5001 ! flacparse ! flacdec ! autoaudiosink sync=false
 ```
+
+All commands can be copied to clipboard in the app. Enabling RTP packetization and setting port to 5600 makes the stream compatible with [QGroundControl](https://github.com/mavlink/qgroundcontrol/blob/master/src/VideoReceiver/README.md). Rotating your device before you start streaming will cause the stream to rotate accordingly. This feature can be disabled in preferences.

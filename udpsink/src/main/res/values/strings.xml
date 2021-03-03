@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">GStreamer Webcam</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- menu items -->
+    <string name="action_receiver_ip">Receiver IP</string>
+    <string name="action_preferences_label">Preferences</string>
+    <string name="action_help_label">Help</string>
+    <string name="action_other_apps_label">My other apps</string>
+    <string name="action_source_code_label">Source code</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string-array name="video_resolutions_standards">
+        <!--<item>QCIF</item>-->
+        <item>CGA</item>
+        <item>CIF</item>
+        <item>VGA</item>
+        <!--<item>NTSC</item>-->
+        <item>WVGA</item>
+        <item>HD 720p 4:3</item>
+        <item>HD 720p 16:9</item>
+        <item>HD 1080p 4:3</item>
+        <item>HD 1080p 16:9</item>
+        <!--
+        <item><i>HD 1200p 16:10</i></item>
+        <item><i>HD 1400p 16:9</i></item>
+        <item><i>HD 1600p 16:10</i></item>
+        <item><i>4K 16:9</i></item>
+        -->
+    </string-array>
+    <string-array name="video_resolutions_sizes">
+        <!--<item>176 × 144</item>-->
+        <item>320 × 240</item>
+        <item>352 × 288</item>
+        <item>640 × 480</item>
+        <!--<item>720 × 480</item>-->
+        <item>800 × 480</item>
+        <item>960 × 720</item>
+        <item>1280 × 720</item>
+        <item>1440 × 1080</item>
+        <item>1920 × 1080</item>
+    <!--<item><i>1920 × 1200</i></item>
+        <item><i>2560 × 1440</i></item>
+        <item><i>2560 × 1600</i></item>
+        <item><i>3840 × 2160</i></item>-->
+    </string-array>
+
+    <string-array name="video_resolutions_index">
+    <!--<item>0</item>-->
+        <item>320,240</item>
+        <item>352,288</item>
+        <item>640,480</item>
+    <!--<item>4</item>-->
+        <item>800,480</item>
+        <item>960,720</item>
+        <item>1280,720</item>
+        <item>1440,1080</item>
+        <item>1920,1080</item>
+     <!--<item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>-->
+    </string-array>
+
+    <string-array name="video_framerates_sizes">
+        <item>10 FPS</item>
+        <item>12 FPS</item>
+        <item>15 FPS</item>
+        <item>24 FPS</item>
+        <item>25 FPS</item>
+        <item>30 FPS</item>
+    </string-array>
+
+    <string-array name="video_framerates_index">
+        <item>10</item>
+        <item>12</item>
+        <item>15</item>
+        <item>24</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+
+    <string name="set_ip_title">Set IP</string>
+    <string name="set_ip_message">Enter IP number:</string>
+    <string name="set_port_title">Set port</string>
+    <string name="set_port_message">Enter port number:</string>
+
+    <string name="resolution">Resolution</string>
+    <string name="framerate">Framerate</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="port_number">Port number</string>
+    <string name="stream_audio">Stream audio</string>
+    <string name="flac_enable">FLAC encoding</string>
+    <string name="autostart">Automatic start</string>
+    <string name="autorotation">Automatic rotation</string>
+    <string name="rtph264pay">RTP packetization</string>
+    <string name="ok">OK</string>
+    <string name="close">Close</string>
+    <string name="copy">Copy to clipboard</string>
+    <string name="more">More</string>
+    <string name="copied">Copied to clipboard.</string>
+    <string name="exit">Exit</string>
+    <string name="permission_title">Displaying preview</string>
+    <string name="permission_content">Preview must be restarted after granting camera permission.</string>
+    <string name="vvs_title">Vertical Video Syndrome:</string>
+    <string name="vvs_content">You are streaming vertically. The app allows it, but it is not recommended.</string>
+    <string name="usage_title">Receiving stream:</string>
+    <string name="network_title">No connection:</string>
+    <string name="network_content">No WiFi nor cellular connection available.</string>
+    <string name="receiving_video_title">Receiving video:</string>
+    <string name="receiving_audio_title">Receiving audio:</string>
+    <string name="receiving_audio_flac_title">Receiving audio (FLAC):</string>
+</resources>
